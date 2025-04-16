@@ -88,6 +88,9 @@ const Map = () => {
     <div className="relative w-full h-[600px] rounded-lg overflow-hidden">
       <div ref={mapContainer} className="absolute inset-0" />
       <div className="absolute inset-0 pointer-events-none rounded-lg ring-1 ring-inset ring-white/10" />
+      <div className="absolute top-4 left-4 z-10 bg-black/50 px-4 py-2 rounded-lg">
+        <h2 className="text-white text-xl font-semibold">Global Climate Impact Map</h2>
+      </div>
     </div>
   );
 };
