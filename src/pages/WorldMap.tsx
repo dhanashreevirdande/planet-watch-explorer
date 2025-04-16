@@ -1,9 +1,10 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Search, Info, Globe, AlertCircle } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useToast } from "@/hooks/use-toast";
-import Map from "@/components/Map";
 
 // Define some regions with sample data
 const regions = [
@@ -110,11 +111,61 @@ const WorldMap = () => {
                   Global Climate Impact Map
                 </CardTitle>
                 <CardDescription>
-                  Explore global climate data through our interactive visualization
+                  Select a region to view detailed climate data
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Map />
+                <div className="relative">
+                  <AspectRatio ratio={16/9} className="bg-muted overflow-hidden rounded-md border">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="world-map-placeholder p-4 text-center">
+                        <Globe className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
+                        <p className="text-muted-foreground">Interactive world map visualization</p>
+                        <p className="text-xs text-muted-foreground/70 mt-2">
+                          (Placeholder for an actual interactive map component)
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Map region buttons */}
+                    <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-4 p-6">
+                      {regions.map((region) => (
+                        <Button
+                          key={region.id}
+                          variant={selectedRegion === region.id ? "default" : "outline"}
+                          className="relative"
+                          onClick={() => handleRegionClick(region.id)}
+                        >
+                          {region.name}
+                          <span className={`absolute -top-1 -right-1 flex h-3 w-3 rounded-full ${
+                            region.riskLevel === "Very High" ? "bg-red-500" :
+                            region.riskLevel === "High" ? "bg-orange-500" :
+                            region.riskLevel === "Medium" ? "bg-yellow-500" : "bg-green-500"
+                          }`}></span>
+                        </Button>
+                      ))}
+                    </div>
+                  </AspectRatio>
+                </div>
+                
+                <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block h-2 w-2 rounded-full bg-green-500"></span>
+                    <span>Low Risk</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block h-2 w-2 rounded-full bg-yellow-500"></span>
+                    <span>Medium Risk</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block h-2 w-2 rounded-full bg-orange-500"></span>
+                    <span>High Risk</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="inline-block h-2 w-2 rounded-full bg-red-500"></span>
+                    <span>Very High Risk</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
